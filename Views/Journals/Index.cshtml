@@ -1,0 +1,101 @@
+﻿@model IEnumerable<EDSU_JournalMS.Models.EDSUJournal>
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+@using EDSU_JournalMS.Authorization;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Submit Journal</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Authors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Keywords)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Abstract)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfPages)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Upload)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadedBy)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Authors)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Keywords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Abstract)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfPages)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Upload)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UploadedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+           @{
+            var isManager = User.IsInRole(Constants.ArticleReviewerRole);
+            var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
+            //checking if an applicant has applied before
+           // var currentUser = UserManager.GetUserId(User);
+
+            if (isAdmin == true)
+            {
+                <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Check if Acceptable</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Assign Reviewers</a>
+                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+            </td>
+             @*   return Forbid();*@
+            }
+            
+        }
+        </tr>
+}
+    </tbody>
+</table>

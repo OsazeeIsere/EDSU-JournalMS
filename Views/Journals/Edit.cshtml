@@ -1,0 +1,116 @@
+﻿@using static EDSU_JournalMS.Models.Enum
+@model EDSU_JournalMS.Models.EDSUJournal
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Journal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Authors" class="control-label"></label>
+                <input asp-for="Authors" class="form-control" />
+                <span asp-validation-for="Authors" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Keywords" class="control-label"></label>
+                <input asp-for="Keywords" class="form-control" />
+                <span asp-validation-for="Keywords" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Abstract" class="control-label"></label>
+                <input asp-for="Abstract" class="form-control" />
+                <span asp-validation-for="Abstract" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="NoOfPages" class="control-label"></label>
+                <input asp-for="NoOfPages" class="form-control" />
+                <span asp-validation-for="NoOfPages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Upload" class="control-label"></label>
+                <input asp-for="Upload" class="form-control" />
+                <span asp-validation-for="Upload" class="text-danger"></span>
+            </div>
+               <div class="form-group">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UploadedBy" class="control-label"></label>
+                <input asp-for="UploadedBy" class="form-control" />
+                <span asp-validation-for="UploadedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               <label asp-for="Status" class="control-label"></label>
+               <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ArticleStatus>()">
+               <option value="">Stutus</option>
+               </select>
+               <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+           <div class="form-group">
+           <label asp-for="FirstReviewer" class="control-label">First Reviewer</label>
+           <select asp-for="FirstReviewer" name="firstReviewer" class="form-control" asp-items="@(new SelectList(ViewBag.message,"Id","FirstName"))">
+           <option value="">Select Reviewer</option>
+           </select>
+          @* <span asp-validation-for="FirstReviewer" class="text-danger"></span>*@
+           </div>
+           <div class="form-group">
+           <label asp-for="SecondReviewer" class="control-label">Second Reviewer</label>
+           <select asp-for="SecondReviewer" name="secondReviewer" class="form-control" asp-items="@(new SelectList(ViewBag.message,"Id","FirstName"))">
+           <option value="">Select Reviewer</option>
+           </select>
+          @* <span asp-validation-for="SecondReviewer" class="text-danger"></span>*@
+           </div>
+           <div class="form-group">
+           <label asp-for="ThirdReviewer" class="control-label">Third Reviewer</label>
+           <select asp-for="ThirdReviewer" name="thirdReviewer" class="form-control" asp-items="@(new SelectList(ViewBag.message,"Id","FirstName"))">
+           <option value="">Select Reviewer</option>
+           </select>
+           @*<span asp-validation-for="ThirdReviewer" class="text-danger"></span>*@
+           </div>
+           <div class="form-group">
+           <label asp-for="FourthReviewer" class="control-label">Fourth Reviewer</label>
+           <select asp-for="FourthReviewer" name="fourthReviewer" class="form-control" asp-items="@(new SelectList(ViewBag.message,"Id","FirstName"))">
+           <option value="">Select Reviewer</option>
+           </select>
+           @*<span asp-validation-for="FourthReviewer" class="text-danger"></span>*@
+           </div>
+           <div class="form-group">
+           <label asp-for="FifthReviewer" class="control-label">Fifth Reviewer</label>
+           <select asp-for="FifthReviewer" name="fifthReviewer" class="form-control" asp-items="@(new SelectList(ViewBag.message,"Id","FirstName"))">
+           <option value="">Select Reviewer</option>
+           </select>
+           @*<span asp-validation-for="FifthReviewer" class="text-danger"></span> *@
+           </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

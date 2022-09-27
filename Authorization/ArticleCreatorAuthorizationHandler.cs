@@ -23,7 +23,7 @@ namespace EDSU_JournalMS.Authorization
                 requirement.Name != Constants.UpdateOperationName ||
                 requirement.Name == Constants.DeleteOperationName ||
                 requirement.Name == Constants.RejectedOperationName ||
-                requirement.Name == Constants.AcceptedOperationName)
+                requirement.Name == Constants.AcceptedForReviewOperationName)
             {
                 return Task.CompletedTask;
             }

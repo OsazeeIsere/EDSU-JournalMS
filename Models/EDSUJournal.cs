@@ -21,7 +21,7 @@ namespace EDSU_JournalMS.Models
         [ForeignKey("JournalEditors")]
         public int? JournalEditorId { get; set; }
         public JournalEditor? JournalEditors { get; set; }
-
+        public string? UploaderId { get; set; }
         public string? FirstReviewer { get; set; }
         public string? SecondReviewer { get; set; }
         public string? ThirdReviewer { get; set; }

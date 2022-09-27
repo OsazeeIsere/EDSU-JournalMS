@@ -15,7 +15,7 @@ namespace EDSU_JournalMS.Authorization
             if (context.User == null || Journal == null)
                 return Task.CompletedTask;
 
-            if (requirement.Name != Constants.AcceptedOperationName &&
+            if (requirement.Name != Constants.AcceptedForReviewOperationName &&
                 requirement.Name != Constants.RejectedOperationName &&
                 requirement.Name != Constants.DeleteOperationName)
             {

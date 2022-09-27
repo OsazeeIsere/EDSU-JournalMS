@@ -11,7 +11,8 @@ namespace EDSU_JournalMS.Data
         }
         public DbSet<EDSU_JournalMS.Models.EDSUJournal> EDSUJournals { get; set; }
         public DbSet<EDSU_JournalMS.Models.JournalEditor> JournalEditors { get; set; }
+        public DbSet<EDSU_JournalMS.Models.Comment> Comments { get; set; }
 
-        
+
     }
 }

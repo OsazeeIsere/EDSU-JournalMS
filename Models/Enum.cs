@@ -5,8 +5,13 @@
         public enum ArticleStatus
         {
             Pending,
-            Accepted,
-            Rejected
+            Accepted_For_Review,
+            Rejected,
+            Review_In_Progress,
+            Review_Completed,
+            Accepted_For_Publication,
+            Published
+
         }
         public enum Title
         {

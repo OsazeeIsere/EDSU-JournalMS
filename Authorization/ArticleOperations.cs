@@ -16,6 +16,8 @@ namespace EDSU_JournalMS.Authorization
             new OperationAuthorizationRequirement { Name = Constants.AcceptedOperationName };
         public static OperationAuthorizationRequirement Rejected =
             new OperationAuthorizationRequirement { Name = Constants.RejectedOperationName };
+        public static OperationAuthorizationRequirement Review =
+            new OperationAuthorizationRequirement { Name = Constants.AcceptedForReviewOperationName };
 
     }
 
@@ -28,7 +30,7 @@ namespace EDSU_JournalMS.Authorization
 
         public static readonly string AcceptedOperationName = "Accepted";
         public static readonly string RejectedOperationName = "Rejected";
-
+        public static readonly string AcceptedForReviewOperationName = "Accepted_For_Review";
         public static readonly string ArticleReviewerRole = "ArticleReviewer";
         public static readonly string ArticleSuperAdminRole = "ArticleSuperAdmin";
 

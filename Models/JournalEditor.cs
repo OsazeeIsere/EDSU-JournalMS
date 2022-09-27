@@ -16,6 +16,7 @@ namespace EDSU_JournalMS.Models
         public string? LastName { get; set; }
         public string? OtherName { get; set; }
         public Title Title { get; set; }
+        public string Role { get; set; }
         public string? AreaOfSpecialization { get; set; }
         public string? EditorEmail { get; set; }
         public string? Tel { get; set; }

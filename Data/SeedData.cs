@@ -18,6 +18,9 @@ namespace EDSU_JournalMS.Data
                 var managerUid = await EnsureUser(serviceProvider, "manager@demo.com", password);
                 await EnsureRole(serviceProvider, managerUid, Constants.ArticleReviewerRole);
 
+                var reviewerUid = await EnsureUser(serviceProvider, "reviewer@demo.com", password);
+                await EnsureRole(serviceProvider, reviewerUid, Constants.ArticleReviewerRole);
+
                 // administrator
                 var adminUid = await EnsureUser(serviceProvider, "admin@demo.com", password);
                 await EnsureRole(serviceProvider, adminUid, Constants.ArticleSuperAdminRole);

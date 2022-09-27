@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EDSU_JournalMS.Models.EDSUJournal>
+﻿@model IEnumerable<EDSU_JournalMS.Models.Comment>
 @using Microsoft.AspNetCore.Authorization;
 @using Microsoft.AspNetCore.Identity;
 @using EDSU_JournalMS.Authorization;
@@ -10,34 +10,37 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Submit Journal</a>
+    <a asp-action="Index">Index</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Journals.Title)
+            </th>
+@*            <th>
+                @Html.DisplayNameFor(model => model.Journals.Authors)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Authors)
-            </th>
+                @Html.DisplayNameFor(model => model.Journals.Keywords)
+            </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Keywords)
+                @Html.DisplayNameFor(model => model.Journals.Abstract)
             </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Journals.NoOfPages)
+            </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Abstract)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoOfPages)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Upload)
+                @Html.DisplayNameFor(model => model.CommentBody)
             </th>
            
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayNameFor(model => model.CommentDate)
             </th>
-            @{
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewerNo)
+            </th>
+           @* @{
                     var isManager = User.IsInRole(Constants.ArticleReviewerRole);
                     var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
 
@@ -48,14 +51,12 @@
                      </th>
                     }
                 }
-            
-             <th>
-                @Html.DisplayNameFor(model => model.Status)
+            *@
+@*             <th>
+                @Html.DisplayNameFor(model => model.Journals.Status)
             </th>
-@*            <th>
-                @Html.DisplayNameFor(model => model.FifthReviewer)
-            </th>*@
-            <th></th>
+           
+*@            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -64,55 +65,42 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Authors)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Keywords)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Abstract)
             </td>
            
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Journals.NoOfPages)
+            </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.NoOfPages)
+                @Html.DisplayFor(modelItem => item.CommentBody)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Upload)
+                @Html.DisplayFor(modelItem => item.CommentDate)
             </td>
+               
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-                @{
-                    
-                    if (isAdmin == false||isManager!=true)
-                    {
-                        <td>
-                          @Html.DisplayFor(modelItem => item.UploadedBy)
-                       </td> 
-                    }
-                }
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.ReviewerNo)
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.JournalEditors.FirstName)
+                @Html.DisplayFor(modelItem => item.Status)
             </td>*@
-               @{
-                 if (isAdmin == false||isManager!=true)
-                    {
-                  <td>
-                      <a asp-action="Details" asp-route-id="@item.Id">Journal Details</a> 
-                  </td> 
-                  <td>
-                      <a asp-action="ViewComment" asp-route-id="@item.Id">See Reviewers' Comments</a> 
-                  </td>
-                    }
-                }
+           
+
            @{
-           if (isAdmin == true)
-               {
+            //checking if an applicant has applied before
+           // var currentUser = UserManager.GetUserId(User);
+            var isManager = User.IsInRole(Constants.ArticleReviewerRole);
+            var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
+
+            if (isAdmin == true)
+            {
                 <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Check if Acceptable</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Assign Reviewers</a>

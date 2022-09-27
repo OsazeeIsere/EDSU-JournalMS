@@ -4,6 +4,7 @@ using EDSU_JournalMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EDSU_JournalMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220923213151_Comment")]
+    partial class Comment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace EDSU_JournalMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Abstract")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CommentBody")
                         .HasMaxLength(2500)
                         .HasColumnType("varchar(2500)");
@@ -40,31 +39,20 @@ namespace EDSU_JournalMS.Migrations
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("JournalEditorsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("JournalId")
                         .HasColumnType("int");
 
                     b.Property<int?>("JournalsId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReviewerEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReviewerNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ReviewerId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JournalEditorsId");
-
                     b.HasIndex("JournalsId");
+
+                    b.HasIndex("ReviewerId");
 
                     b.ToTable("Comments");
                 });
@@ -122,9 +110,6 @@ namespace EDSU_JournalMS.Migrations
                     b.Property<string>("UploadedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UploaderId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("JournalEditorId");
@@ -159,10 +144,6 @@ namespace EDSU_JournalMS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OtherName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Tel")
@@ -380,13 +361,15 @@ namespace EDSU_JournalMS.Migrations
 
             modelBuilder.Entity("EDSU_JournalMS.Models.Comment", b =>
                 {
-                    b.HasOne("EDSU_JournalMS.Models.JournalEditor", "JournalEditors")
-                        .WithMany()
-                        .HasForeignKey("JournalEditorsId");
-
                     b.HasOne("EDSU_JournalMS.Models.EDSUJournal", "Journals")
                         .WithMany()
                         .HasForeignKey("JournalsId");
+
+                    b.HasOne("EDSU_JournalMS.Models.JournalEditor", "JournalEditors")
+                        .WithMany()
+                        .HasForeignKey("ReviewerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("JournalEditors");
 

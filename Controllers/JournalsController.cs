@@ -35,40 +35,40 @@ namespace EDSU_JournalMS.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUser = UserManager.GetUserName(User);
-            var editors = from i in Context.JournalEditors
-                             select i;
-            editors = editors.Where(i => i.EditorEmail == currentUser);
-            var editorId = from c in editors select c.Id;
-            if (editors.Any())
+            var currentUserId = UserManager.GetUserId(User);
+
+            var editorId = (from c in Context.JournalEditors where c.EditorEmail.Equals(currentUser) select c).ToList();
+            List<EDSUJournal> article = new List<EDSUJournal>();
+
+            foreach (var editor in editorId)
             {
+                  article = (from c in Context.EDSUJournals where c.FirstReviewer.Equals(editor.Id.ToString())|| c.SecondReviewer.Equals(editor.Id.ToString())|| c.ThirdReviewer.Equals(editor.Id.ToString())|| c.FourthReviewer.Equals(editor.Id.ToString())|| c.FifthReviewer.Equals(editor.Id.ToString()) select c).ToList();
+                if(article.Count > 0)
+                {
+                    return View(article);
+                }
 
-                List<EDSUJournal> article = new List<EDSUJournal>();
-                article = (from c in Context.EDSUJournals select c).ToList();
-                foreach(EDSUJournal journal in article)
-                    if ((journal.FirstReviewer != null) && journal.FirstReviewer == editorId.ToString())
-
-                        //if ((journal.FirstReviewer!=null)&&journal.FirstReviewer == editorId.ToString()|| (journal.SecondReviewer!=null)&& journal.SecondReviewer == editorId.ToString()                       
-                        //                        || (journal.ThirdReviewer!=null)&& journal.ThirdReviewer == editorId.ToString()|| (journal.FourthReviewer!=null)&& journal.FourthReviewer == editorId.ToString()||(journal.FifthReviewer!=null)&& journal.fi == editorId.ToString())
-                    {
-                        article.Add(journal);
-                        return View(article);
-
-                    }
-                //var articles = from i in Context.EDSUJournals
-                //               select i;
-                //articles = articles.Where(i => i.FirstReviewer. == currentUser);
-
-                //if (article(currentUser)) { }
-                //var isManager = User.IsInRole(Constants.ArticleReviewerRole);
-                //var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
             }
+            var journals = from i in Context.EDSUJournals
+                             select i;
+            if (journals.Any())
+            {
+                journals = journals.Where(i => i.UploaderId == currentUserId);
+                if (journals.Any())
+                {
+                    return View(journals);
+                }
 
+            }
+            var isManager = User.IsInRole(Constants.ArticleReviewerRole);
+            var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
             //checking if an applicant has applied before
 
-            //if (isManager == true && isAdmin == false)
-            //{
-            //  //  article = article.Where(i => i. == currentUser);
-            //}
+            if (isAdmin != false)
+            {
+                return View(await Context.EDSUJournals.Include(x => x.JournalEditors).ToListAsync());
+
+            }
 
             return Context.EDSUJournals != null ? 
                           View(await Context.EDSUJournals.Include(x=> x.JournalEditors).ToListAsync()) :
@@ -76,41 +76,17 @@ namespace EDSU_JournalMS.Controllers
         }
 
         // GET: Articles/Details/5
-        public async Task<IActionResult> Details(int? id, ArticleStatus status)
+        public async Task<IActionResult> Details(int? id)
         {
 
-            var articleOperation = (status.ToString() == ArticleOperations.Accepted.ToString())
-                ? ArticleOperations.Accepted
-                : ArticleOperations.Rejected;
-                        var article = await Context.EDSUJournals.FindAsync(id);
-
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(
-                User, article, articleOperation);
-
-            if (isAuthorized.Succeeded == false)
-                return Forbid();
-
-            var JournalToUpdate = await Context.EDSUJournals
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (await TryUpdateModelAsync<EDSUJournal>(JournalToUpdate, "", c => c.FirstReviewer, c => c.SecondReviewer,
-                c => c.ThirdReviewer, c => c.FourthReviewer, c => c.FifthReviewer,c => c.Status))
-
-            {
-                try
-                {
-                    await Context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-
-                    //Log the error (uncomment ex variable name and write a log.)
-                    ModelState.AddModelError("", "Unable to save changes. " +
-                        "Try again, and if the problem persists, " +
-                        "see your system administrator.");
-                }
-                return RedirectToAction(nameof(Index));
-            }
+            //    ? ArticleOperations.Review
+            //    : ArticleOperations.Rejected;
+             var article = await Context.EDSUJournals.FindAsync(id);
+            var isManager = User.IsInRole(Constants.ArticleReviewerRole);
+            var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
+            if (isAdmin != false)
+                return View(article);
+                        
             return View();
 
             //if (id == null || Context.Articles == null)
@@ -128,6 +104,40 @@ namespace EDSU_JournalMS.Controllers
             //return View(Article);
         }
 
+        //Post: Applicant/Detail
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int? id, ArticleStatus status)
+        {
+            var article = await Context.EDSUJournals.FindAsync(id);
+
+            if (article == null)
+                return NotFound();
+
+
+            var JournalToUpdate = await Context.EDSUJournals
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (await TryUpdateModelAsync<EDSUJournal>(JournalToUpdate, "", c => c.FirstReviewer, c => c.SecondReviewer,
+                c => c.ThirdReviewer, c => c.FourthReviewer, c => c.FifthReviewer, c => c.Status))
+
+            {
+                try
+                {
+                    await Context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
         // GET: Articles/Create
         public IActionResult Create()
         {
@@ -161,9 +171,9 @@ namespace EDSU_JournalMS.Controllers
             //}
             try
             {
-                var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Article, ArticleOperations.Create);//using the same application Aothorizatin handler
-                if (isAuthorized.Succeeded == false)
-                    return Forbid();
+                //var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Article, ArticleOperations.Create);//using the same application Aothorizatin handler
+                //if (isAuthorized.Succeeded == false)
+                //    return Forbid();
                 if (FullArticle != null && FullArticle.Length > 0)
                 {
                     var uploadDir = @"files/Articles";
@@ -171,22 +181,23 @@ namespace EDSU_JournalMS.Controllers
                     var extension = Path.GetExtension(FullArticle.FileName);
                     var webRootPath = _hostingEnvironment.WebRootPath;
                     //fileName = DateTime.UtcNow.ToString("yymmssfff") + fileName + extension;
-
                     fileName = fileName + extension;
                     var path = Path.Combine(webRootPath, uploadDir, fileName);
                     using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
                     {
                         FullArticle.CopyTo(fs);
                         Article.Upload =fileName;
+                        Article.UploaderId = uploader;
                     }
 
                 }
                 //  Context.Add(Article);
-                await TryUpdateModelAsync<EDSUJournal>(Article);               //    c => c.Ssce1, c => c.Ssce2, c => c.BirthCertificate, c => c.DirectEntryUpload, c => c.LGAUpload))
+               // await TryUpdateModelAsync<EDSUJournal>(Article);               //    c => c.Ssce1, c => c.Ssce2, c => c.BirthCertificate, c => c.DirectEntryUpload, c => c.LGAUpload))
 
                 try
                 {
                     await Context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -271,6 +282,58 @@ namespace EDSU_JournalMS.Controllers
               return View();
         }
 
+        // GET: Articles/Edit/5
+        public async Task<IActionResult> Comment(int? id)
+        {
+            if (id == null || Context.EDSUJournals == null)
+            {
+                return NotFound();
+            }
+            var article = await Context.EDSUJournals.FindAsync(id);
+            if (article == null)
+                return NotFound();
+            List<JournalEditor> reviewer = new List<JournalEditor>();
+            reviewer = (from c in Context.JournalEditors select c).ToList();
+            reviewer.Insert(0, new JournalEditor
+            {
+                Id = 0,
+                FirstName = "--Select Editor--"
+            });
+            ViewBag.message = reviewer;
+            return View(article);
+        }
+
+        // POST: Articles/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Comment(int id, string title, string articleAbstract, string reviewerNo,string commentBody, EDSUJournal Article)
+        {
+            var currentUser = UserManager.GetUserName(User);
+
+            List<Comment> newComment = new List<Comment>() { new Comment() { ReviewerEmail =currentUser, Title=title, Abstract= articleAbstract, ReviewerNo= reviewerNo, JournalId = id, CommentBody = commentBody, CommentDate = DateTime.Now }};
+            if (newComment != null)
+            {
+                Context.Comments.UpdateRange(newComment);
+            }
+                try
+                {
+                    await Context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+                return RedirectToAction(nameof(Index));
+            
+            return View();
+        }
+
         // GET: Articles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -305,6 +368,62 @@ namespace EDSU_JournalMS.Controllers
             }
             
             await Context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        // GET: Journals
+        public async Task<IActionResult> ViewComment()
+        {
+            var currentUser = UserManager.GetUserName(User);
+            var currentUserId = UserManager.GetUserId(User);
+
+            var journalId = (from c in Context.EDSUJournals where c.UploaderId==(currentUserId) select c).ToList();
+            List<Comment> comment = new List<Comment>();
+            List<EDSUJournal> article = new List<EDSUJournal>();
+            if (journalId.Any()) 
+            { 
+            
+            foreach (var journal in journalId)
+            {
+               // View(await _context.Courses.Include(x => x.Departments).ToListAsync()) :
+
+                comment = (from c in Context.Comments.Include(c=> c.Journals) where c.JournalId.Equals(journal.Id) select c).ToList();
+                if (comment.Count > 0)
+                {
+                    article=(from c in Context.EDSUJournals where c.Id == journal.Id select c).ToList();
+                    if(article.Count > 0)
+                    {
+                      //  ViewBag.Message1 = article.ToList();
+                    }
+                    return View(comment);
+                }
+                //article = (from c in Context.EDSUJournals where c.FirstReviewer.Equals(editor.Id.ToString()) || c.SecondReviewer.Equals(editor.Id.ToString()) || c.ThirdReviewer.Equals(editor.Id.ToString()) || c.FourthReviewer.Equals(editor.Id.ToString()) || c.FifthReviewer.Equals(editor.Id.ToString()) select c).ToList();
+                //if (affectedJournal.Count > 0)
+                //{
+                //    //return View(article);
+                //}
+            }
+            }
+            var journals = from i in Context.EDSUJournals
+                           select i;
+            if (journals.Any())
+            {
+                journals = journals.Where(i => i.UploaderId == currentUserId);
+                if (journals.Any())
+                {
+                    return View(journals);
+                }
+
+            }
+            var isManager = User.IsInRole(Constants.ArticleReviewerRole);
+            var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
+            //checking if an applicant has applied before
+
+            if (isAdmin != false)
+            {
+                return View(await Context.EDSUJournals.Include(x => x.JournalEditors).ToListAsync());
+
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

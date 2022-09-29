@@ -6,12 +6,78 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <h1>Index</h1>
+
+
 
 <p>
     <a asp-action="Create">Submit Journal</a>
 </p>
+<h3 class="text-center">Total Uploaded Journal</h3>
+<div class="admin-data-content layout-top-spacing">
+    <div class="row layout-top-spacing" id="cancel-row">
+        <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
+            <div class="widget-content widget-content-area br-6">
+                <table id="html5-extension" class="table table-hover non-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Keywords</th>
+                            <th>Abstract</th>
+                            <th>Complete Article</th>
+                            <th>Date Uploaded</th>
+                            <th>Uploader</th>
+                            <th>Status</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model )
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Authors)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Keywords)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Abstract)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Download", "DownloadFile", new{FileName = item.Upload})
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UploadedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>Index</h1>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -141,3 +207,14 @@
 }
     </tbody>
 </table>
+<script>
+    const targetDiv = document.getElementById("third");
+    const btn = document.getElementById("toggle");
+    btn.onclick = function () {
+        if (targetDiv.style.display !== "none") {
+            targetDiv.style.display = "none";
+        } else {
+            targetDiv.style.display = "block";
+        }
+    };
+</script>

@@ -31,6 +31,7 @@ namespace EDSU_JournalMS.Controllers
 
             return File(bytes, "application/octet-stream", FileName);
         }
+        
         // GET: Journals
         public async Task<IActionResult> Index()
         {
@@ -102,6 +103,14 @@ namespace EDSU_JournalMS.Controllers
             //}
 
             //return View(Article);
+        }
+        public async Task<IActionResult> Abstract(int? id)
+        {
+
+
+            return PartialView("_Abstract");
+
+           
         }
 
         //Post: Applicant/Detail
@@ -191,9 +200,7 @@ namespace EDSU_JournalMS.Controllers
                     }
 
                 }
-                //  Context.Add(Article);
-               // await TryUpdateModelAsync<EDSUJournal>(Article);               //    c => c.Ssce1, c => c.Ssce2, c => c.BirthCertificate, c => c.DirectEntryUpload, c => c.LGAUpload))
-
+                
                 try
                 {
                     await Context.SaveChangesAsync();
@@ -308,11 +315,11 @@ namespace EDSU_JournalMS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Comment(int id, string title, string articleAbstract, string reviewerNo,string commentBody, EDSUJournal Article)
+        public async Task<IActionResult> Comment(int id, string articleAbstract, string reviewerNo,string commentBody, EDSUJournal Article)
         {
             var currentUser = UserManager.GetUserName(User);
 
-            List<Comment> newComment = new List<Comment>() { new Comment() { ReviewerEmail =currentUser, Title=title, Abstract= articleAbstract, ReviewerNo= reviewerNo, JournalId = id, CommentBody = commentBody, CommentDate = DateTime.Now }};
+            List<Comment> newComment = new List<Comment>() { new Comment() { ReviewerEmail =currentUser, Title=Article.Title, Abstract= articleAbstract, ReviewerNo= reviewerNo, JournalId = id, CommentBody = commentBody, CommentDate = DateTime.Now }};
             if (newComment != null)
             {
                 Context.Comments.UpdateRange(newComment);

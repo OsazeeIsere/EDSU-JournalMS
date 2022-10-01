@@ -8,7 +8,7 @@
 }
 <h1>Index</h1>
 
-
+<div id="PlaceHolderHere"></div>
 
 <p>
     <a asp-action="Create">Submit Journal</a>
@@ -27,9 +27,19 @@
                             <th>Abstract</th>
                             <th>Complete Article</th>
                             <th>Date Uploaded</th>
-                            <th>Uploader</th>
-                            <th>Status</th>
-                         </tr>
+                    @{
+                        var isManager = User.IsInRole(Constants.ArticleReviewerRole);
+                        var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
+
+                        if (isAdmin == false||isManager!=true)
+                        {
+                           <th>
+                          @Html.DisplayNameFor(model => model.UploadedBy)
+                         </th>
+                        }
+                    }
+                    <th>Status</th>
+                    </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model )
@@ -53,116 +63,21 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CreatedAt)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UploadedBy)
-                                </td>
+                                
+                                @{
+                    
+                                    if (isAdmin == false||isManager!=true)
+                                    {
+                                        <td>
+                                          @Html.DisplayFor(modelItem => item.UploadedBy)
+                                       </td> 
+                                    }
+                                }
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
 
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </td>
-                            </tr>
-                        
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<h1>Index</h1>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Authors)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Keywords)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Abstract)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoOfPages)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Upload)
-            </th>
-           
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            @{
-                    var isManager = User.IsInRole(Constants.ArticleReviewerRole);
-                    var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
-
-                    if (isAdmin == false||isManager!=true)
-                    {
-                       <th>
-                      @Html.DisplayNameFor(model => model.UploadedBy)
-                     </th>
-                    }
-                }
-            
-             <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-@*            <th>
-                @Html.DisplayNameFor(model => model.FifthReviewer)
-            </th>*@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Authors)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Keywords)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Abstract)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.NoOfPages)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Upload)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-                @{
-                    
-                    if (isAdmin == false||isManager!=true)
-                    {
-                        <td>
-                          @Html.DisplayFor(modelItem => item.UploadedBy)
-                       </td> 
-                    }
-                }
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            @*<td>
+                                @*<td>
                 @Html.DisplayFor(modelItem => item.JournalEditors.FirstName)
             </td>*@
                @{
@@ -203,10 +118,17 @@
             }
             
         }
+         <button class="dropdown-item" type="button" data-toggle="ajax-modal" data-target="#addCourseware" data-url="@Url.Action($"Abstract/{item.Id}")">
+                Admission
+         </button>
         </tr>
-}
-    </tbody>
-</table>
+}         </tbody>
+                </table>
+            </div>
+           
+        </div>
+    </div>
+</div>
 <script>
     const targetDiv = document.getElementById("third");
     const btn = document.getElementById("toggle");

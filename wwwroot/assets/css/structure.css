@@ -511,7 +511,7 @@ code { color: #e7515a; }
 .sidebar-wrapper {
     width: 255px;
     position: fixed;
-    top: 0;
+    top: 70px;
     left: 0;
     z-index: 1028;
     height: 100%;

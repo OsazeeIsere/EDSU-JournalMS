@@ -230,7 +230,7 @@
                                         <div class="nav-item dropdown user-profile-dropdown">
                                             <a href="#" class="nav-link dropdown-toggle user" id="user-profile-dropdown" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                                                 <div class="media">
-                                                    @<img src="assets/img/90x90.jpg" class="img-fluid" alt="admin-profile">@
+                                                    @*@<img src="assets/img/90x90.jpg" class="img-fluid" alt="admin-profile">@*@
                                                     <div class="media-body align-self-center">
                                                         <!-- Username -->
                                                        @*<h6>@UserManager.GetUserName(User)</h6>*@
@@ -276,7 +276,6 @@
                                     </div>
                                 </header>
                             </div>
-[3:36 pm, 28/09/2022] Mr Fatai WhatsApp:                             <div class="admin-data-content layout-top-spacing">
 
                                 <div class="row layout-top-spacing">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-12 layout-spacing">
@@ -286,170 +285,66 @@
                                                     <div class="form-row">
                                                         <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                             <label asp-for="Name" class="control-label"></label>
-                                                             <h6>@Html.DisplayFor(model => model.Name)</h6>
+                                                             <label asp-for="Title" class="control-label"></label>
+                                                             <h6>@Html.DisplayFor(model => model.Title)</h6>
                                                         </div>
                                                         </div>
                                                        <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                            <label asp-for="Email" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.Email)</h6>
+                                                            <label asp-for="Authors" class="control-label"></label>
+                                                            <h6>@Html.DisplayFor(model => model.Authors)</h6>
                                                         </div>
                                                         </div>
                                                        <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                            <label asp-for="Department" class="control-label"></label>
-                                                           <h6>@Html.DisplayFor(model => model.Department)</h6>
+                                                            <label asp-for="Keywords" class="control-label"></label>
+                                                           <h6>@Html.DisplayFor(model => model.Keywords)</h6>
                                                         </div>
                                                         </div>
                                                         <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                            <label asp-for="Destination" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.Destination)</h6>
+                                                            <label asp-for="Abstract" class="control-label"></label>
+                                                            <h6>@Html.DisplayFor(model => model.Abstract)</h6>
                                                         </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-row">
                                                        <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                            <label asp-for="MatNo" class="control-label">Matriculation No.</label>
-                                                            <h6>@Html.DisplayFor(model => model.MatNo)</h6>
+                                                            <label asp-for="NoOfPages" class="control-label"> No. of Pages</label>
+                                                            <h6>@Html.DisplayFor(model => model.NoOfPages)</h6>
                                                         </div>
                                                         </div>
                                                         <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                            <label asp-for="DepartureDate" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.DepartureDate)</h6>
-                                                        </div>
+                                                            <label asp-for="Upload" class="control-label"></label>
+                                                             <h6>  @Html.ActionLink("Download", "DownloadFile", new{FileName = Model.Upload})</h6>
+                                                       </div>
                                                         </div>
                                                         <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                            <label asp-for="ArrivalDate" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.ArrivalDate)</h6>
-                                                            </div>
-                                                    </div>
-                                                    <div class="col-md-3 mb-4">
-                                                            <div class="form-group">
-                                                            <label asp-for="Reason" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.Reason)</h6>
+                                                            <label asp-for="CreatedAt" class="control-label">Uploaded Date</label>
+                                                            <h6>@Html.DisplayFor(model => model.CreatedAt)</h6>
                                                             </div>
                                                         </div>
+                                                            <div class="col-md-3 mb-4">
+                                                                    <div class="form-group">
+                                                                    <label asp-for="UploadedBy" class="control-label">Submitted By</label>
+                                                                    <h6>@Html.DisplayFor(model => model.UploadedBy)</h6>
+                                                                    </div>
+                                                            </div>
                                                     </div>
                                                     <div class="form-row">  
                                                         <div class="col-md-3 mb-4">
                                                             <div class="form-group">
-                                                            <label asp-for="Phone" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.Phone)</h6>
+                                                            <label asp-for="Status" class="control-label"></label>
+                                                            <h6>@Html.DisplayFor(model => model.Status)</h6>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3 mb-4">
-                                                            <div class="form-group">
-                                                            <label asp-for="ParentPhone" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.ParentPhone)</h6>
-                                                            </div>
-                                                        </div>
-                                                         <div class="col-md-3 mb-4">
-                                                            <div class="form-group">
-                                                            <label asp-for="AltParentPhone" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.AltParentPhone)</h6>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3 mb-4">
-                                                            <div class="form-group">
-                                                            <label asp-for="ChiefPortalStatus" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.ChiefPortalStatus)</h6>
-                                                            </div>
-                                                        </div>
-                                                   </div>
-                                                    
-                                                    <div class="form-row">
-                                                        <div class="col-md-3 mb-4">
-                                                            <div class="form-group">
-                                                            <label asp-for="HallMasterStatus" class="control-label"></label>
-                                                           <h6>@Html.DisplayFor(model => model.HallMasterStatus)</h6>
-                                                        </div>
-                                                        </div>
-                                                        <div class="col-md-3 mb-4">
-                                                            <div class="form-group">
-                                                            <label asp-for="Dean" class="control-label"></label>
-                                                           <h6>@Html.DisplayFor(model => model.Dean)</h6>
-                                                        </div>
-                                                        </div>
-                                                        <div class="col-md-3 mb-4">
-                                                           <div class="form-group">
-                                                            <label asp-for="Hall" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.Hall)</h6>
-                                                        </div>
-                                                        </div>
-                                                        <div class="col-md-3 mb-4">
-                                                           <div class="form-group">
-                                                            <label asp-for="NoOfDays" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.NoOfDays)</h6>
-                                                        </div>
-                                                        </div>
-                                                       
                                                     </div>
-                                                    <div class="form-row">
-                                                         <div class="col-md-3 mb-4">
-                                                            <div class="form-group">
-                                                            <label asp-for="CreatedAt" class="control-label"></label>
-                                                            <h6>@Html.DisplayFor(model => model.CreatedAt)</h6>
-                                                            </div>
-                                                        </div>
-                                                        @if (Model.HallMasterStatus == Status.Approved || Model.Dean == Status.Approved)
-                                                        {
-                                                    
-                                                                <div class="col-md-3 mb-4">
-                                                                    <div class="form-group">
-                                                                        <label asp-for="ExeatId" class="control-label"></label>
-                                                                        <h6>@Html.DisplayFor(model => model.ExeatId)</h6>
-                                                                        <a asp-action="Exeat" asp-route-id="@Model.Id" class="btn btn-primary">QR Code</a>
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                        }
-                                                    
-                                                         @if (Model.NoOfDays <= 3)
-                                                        {
-                                                        @if (Model.HallMasterStatus != Status.Approved){
-                                                             <form style="display:inline;" method="post">
-                                                                <input hidden name="Id" value="@Model.Id">
-                                                                <label asp-for="HallMasterStatus" class="control-label"></label><br/>
-                                                                <input hidden asp-for="HallMasterStatus" name="status" value="@Status.Approved">
-                                                                <button type="submit" class="btn btn-xs btn-success">Approve</button>
-                                                            </form>
-                                                        }@if (Model.HallMasterStatus != Status.Declined)
-                                                        {
-                                                            <form style="display:inline;" method="post">
-                                                                <input hidden name="Id" value="@Model.Id">
-                                                                <label asp-for="HallMasterStatus" class="control-label"></label><br/>
-                                                                <input hidden asp-for="HallMasterStatus" name="status" value="@Status.Declined">
-                                                                <button type="submit" class="btn btn-xs btn-danger">Decline</button>
-                                                            </form>
-                                                        }
-                                                           
-                                                        }
-                                                        else
-                                                        {
-                                                        @if (Model.Dean != Status.Approved)
-                                                        {
-                                                            <form style="display:inline;" method="post">
-                                                                <input hidden name="Id" value="@Model.Id">
-                                                                <label asp-for="Dean" class="control-label"></label><br/>
-                                                                <input hidden asp-for="Dean" name="status" value="@Status.Approved">
-                                                                <button type="submit" class="btn btn-xs btn-success">Approve</button>
-                                                            </form>
-                                                        }
-                                                       @if (Model.Dean != Status.Declined)
-                                                        {
-                                                            <form style="display:inline;" method="post">
-                                                                <input hidden name="Id" value="@Model.Id">
-                                                                <label asp-for="Dean" class="control-label"></label><br/>
-                                                                <input hidden asp-for="Dean" name="status" value="@Status.Declined">
-                                                                <button type="submit" class="btn btn-xs btn-danger">Decline</button>
-                                                            </form>
-                                                        }
-                                                        }
+                                                
+                                                       
+                                                      
                                                     </div>
                                             </div>
                                         </div>
@@ -470,80 +365,7 @@
             </div>
             
         </div>
-        <!--  END CONTENT AREA  -->
-        
-    </div>
-   
-    <!-- END MAIN CONTAINER -->
-
-    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-    
-</div>
-
-<div>
-    <h4>Article</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Authors)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Authors)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Keywords)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Keywords)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Abstract)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Abstract)
-        </dd>
-       
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoOfPages)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoOfPages)
-        </dd>
-        <dt class = "col-sm-2">
-            <h6><span>Complete Uploaded Article</span></h6>
-            @Html.DisplayNameFor(model => model.Upload)
-            </dt>
-        <dd class = "col-sm-10">
-            @Html.ActionLink("Download", "DownloadFile", new{FileName = Model.Upload})
-        </dd>
-        <dt class = "col-sm-2">
-         <h6><span>Date Uploaded</span></h6>
-           @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UploadedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UploadedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
-</div>
-@{
+        @{
     
   var isAuthorized = await AuthorizationService.AuthorizeAsync(
 				User, Model, ArticleOperations.Rejected);
@@ -561,14 +383,17 @@
 
 		@if (Model.Status != ArticleStatus.Rejected)
 		{
-			<form style="display:inline;" method="post">
+			<form >
 				<input hidden name="id" value="@Model.Id">
 				<input hidden name="status" value="@ArticleStatus.Rejected">
 				<button type="submit" class="btn btn-xs btn-danger">Rejected</button>
 			</form>
-		}
+
+        }
 	}
 }
+ <form style="display:inline;" method="post">
+
 <div>
     @if(isAuthorized.Succeeded==false)
     {
@@ -576,4 +401,15 @@
     }
     <a asp-action="Index">Back to List</a>
 </div>
+			
+</form>
 
+
+        <!--  END CONTENT AREA  -->
+        
+   
+   
+    <!-- END MAIN CONTAINER -->
+
+    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+    

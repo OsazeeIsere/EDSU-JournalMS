@@ -53,11 +53,12 @@ body {
       .form-form .form-container .form-content h1 {
         font-size: 32px;
         color: #3b3f5c; }
-      .form-form .form-container .form-content > p {
-        font-size: 13px;
-        color: #888ea8;
-        font-weight: 600;
-        margin-bottom: 35px; }
+        .form-form .form-container .form-content > p {
+            font-size: 13px;
+            color: #888ea8;
+            font-weight: 600;
+            /*margin-bottom: 15px;*/
+        }
   .form-form .form-form-wrap .user-meta {
     margin-bottom: 35px; }
     .form-form .form-form-wrap .user-meta img {
@@ -81,7 +82,7 @@ body {
     font-weight: 700;
     margin-bottom: 15px;
     text-align: center;
-    margin-top: 50px; }
+    margin-top: 30px; }
     .form-form .form-form-wrap p.signup-link.register {
       font-size: 13px;
       color: #888ea8;

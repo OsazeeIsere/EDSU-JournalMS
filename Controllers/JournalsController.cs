@@ -80,8 +80,6 @@ namespace EDSU_JournalMS.Controllers
         public async Task<IActionResult> Details(int? id)
         {
 
-            //    ? ArticleOperations.Review
-            //    : ArticleOperations.Rejected;
              var article = await Context.EDSUJournals.FindAsync(id);
             var isManager = User.IsInRole(Constants.ArticleReviewerRole);
             var isAdmin = User.IsInRole(Constants.ArticleSuperAdminRole);
@@ -90,27 +88,15 @@ namespace EDSU_JournalMS.Controllers
                         
             return View();
 
-            //if (id == null || Context.Articles == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var Article = await Context.Articles
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (Article == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(Article);
+          
         }
+        
+        // Creating a modal form to display abstact
         public async Task<IActionResult> Abstract(int? id)
         {
-
-
+            var article = await Context.EDSUJournals.FindAsync(id);
+            ViewBag.Abstract=article.Abstract;
             return PartialView("_Abstract");
-
-           
         }
 
         //Post: Applicant/Detail

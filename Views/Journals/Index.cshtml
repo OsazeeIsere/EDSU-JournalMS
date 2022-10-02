@@ -8,12 +8,11 @@
 }
 <h1>Index</h1>
 
-<div id="PlaceHolderHere"></div>
 
 <p>
     <a asp-action="Create">Submit Journal</a>
 </p>
-<h3 class="text-center">Total Uploaded Journal</h3>
+<h3 class="text-center">List of Uploaded Journal</h3>
 <div class="admin-data-content layout-top-spacing">
     <div class="row layout-top-spacing" id="cancel-row">
         <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -39,6 +38,7 @@
                         }
                     }
                     <th>Status</th>
+                    <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -55,7 +55,11 @@
                                     @Html.DisplayFor(modelItem => item.Keywords)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Abstract)
+                                    <div id="PlaceHolderHere"></div>
+                                      <button class="dropdown-item" type="button" data-toggle="ajax-modal" data-target="#showAbstract" data-url="@Url.Action($"Abstract/{item.Id}")">
+                                       View Abstract
+                                       </button>
+
                                 </td>
                                 <td>
                                     @Html.ActionLink("Download", "DownloadFile", new{FileName = item.Upload})
@@ -91,40 +95,38 @@
                   </td>
                     }
                 }
-           @{
-           if (isAdmin == true)
-               {
-                <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Check if Acceptable</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Assign Reviewers</a>
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-             @*   return Forbid();*@
-            }
-            
-        }
-         @{
-            //checking if an applicant has applied before
-           // var currentUser = UserManager.GetUserId(User);
 
-            if (isManager == true)
-            {
-                <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Comment" asp-route-id="@item.Id">Add Comment</a>
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-             @*   return Forbid();*@
-            }
-            
-        }
-         <button class="dropdown-item" type="button" data-toggle="ajax-modal" data-target="#addCourseware" data-url="@Url.Action($"Abstract/{item.Id}")">
-                Admission
-         </button>
-        </tr>
-}         </tbody>
-                </table>
-            </div>
+               @{
+                   if (isAdmin == true)
+                       {
+                        <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Check if Acceptable</a> |
+                        <a asp-action="Edit" asp-route-id="@item.Id">Assign Reviewers</a>
+                        @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                        </td>
+                         @*   return Forbid();*@
+                       }
+                        //checking if an applicant has applied before
+                       // var currentUser = UserManager.GetUserId(User);
+
+                        if (isManager == true)
+                        {
+                            <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Comment" asp-route-id="@item.Id">Add Comment</a>
+                            @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                        </td>
+                         @*   return Forbid();*@
+                        }
+               
+                    }
+         
+    </tr>
+   }
+  </tbody>
+   </table>
+  
+</div>
            
         </div>
     </div>

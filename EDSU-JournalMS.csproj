@@ -26,6 +26,7 @@
     <Folder Include="wwwroot\files\applicantUploads\birthcertificates\" />
     <Folder Include="wwwroot\files\applicantUploads\ssce2\" />
     <Folder Include="wwwroot\files\jamb\" />
+    <Folder Include="wwwroot\files\Articles\" />
     <Folder Include="wwwroot\files\staffs\certificate\" />
     <Folder Include="wwwroot\files\staffs\cv\" />
     <Folder Include="wwwroot\files\staffs\passport\" />

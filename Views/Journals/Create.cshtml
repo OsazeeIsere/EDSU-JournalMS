@@ -175,7 +175,10 @@
         .layout-px-spacing {
             min-height: calc(100vh - 145px)!important;
         }
-
+        addTextFields{
+max-height: 100px;
+height: 100%;
+}
     </style>
 
 @*<h1>Journal Submission</h1>
@@ -280,6 +283,12 @@
                                         <div class="widget-content-area br-4">
                                             <div class="widget-one">
                                                 <form class="needs-validation" novalidate  asp-action="Create" enctype="multipart/form-data" method="post">
+                                                    
+                                                    <div id="container" class="addTextFields" >
+                                                     <input type="text" id="member" name="member" value="" class="addTextFields" />Number of Authors: (max. 10)<br />
+                                                     <a href="#" id="filldetails" onclick="addFields()">Fill Details</a>
+                                                 </div>
+
                                                     <div class="form-row">
                                                         <div class="col-md-4 mb-4">
                                                             <div class="form-group">
@@ -388,6 +397,32 @@
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     
 </div>
+<script type='text/javascript'>
+        function addFields(){
+            // Generate a dynamic number of inputs
+            var number = document.getElementById("member").value;
+            // Get the element where the inputs will be added to
+            var container = document.getElementById("container");
+            // Remove every children it had before
+            while (container.hasChildNodes()) {
+               container.removeChild(container.lastChild);
+            }
+            for (i=0;i<number;i++){
+                // Append a node with a random text
+                container.appendChild(document.createTextNode("Author " + (i+1)));
+                // Create an <input> element, set its type and name attributes
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "Author" + i;
+                container.appendChild(input);
+                // Append a line break 
+                container.appendChild(document.createElement("br"));
+            }
+        }
+    </script>
+
+
+    
 
 
 @*@section Scripts {

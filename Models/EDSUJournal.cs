@@ -27,6 +27,11 @@ namespace EDSU_JournalMS.Models
         public string? ThirdReviewer { get; set; }
         public string? FourthReviewer { get; set; }
         public string? FifthReviewer { get; set; }
+        public string? SixthReviewer { get; set; }
+        public string? SeventhReviewer { get; set; }
+        public string? EighthReviewer { get; set; }
+        public string? NinthReviewer { get; set; }
+        public string? TenthReviewer { get; set; }
 
     }
 }

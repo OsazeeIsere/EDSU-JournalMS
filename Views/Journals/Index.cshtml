@@ -2,13 +2,10 @@
 @using Microsoft.AspNetCore.Authorization;
 @using Microsoft.AspNetCore.Identity;
 @using EDSU_JournalMS.Authorization;
-
 @{
     ViewData["Title"] = "Index";
 }
 <h1>Index</h1>
-
-
 <p>
     <a asp-action="Create">Submit Journal</a>
 </p>
@@ -119,14 +116,13 @@
                          @*   return Forbid();*@
                         }
                
-                    }
+               }
          
     </tr>
    }
   </tbody>
    </table>
-  
-</div>
+  </div>
            
         </div>
     </div>
